@@ -9,6 +9,10 @@ import android.view.ViewGroup
 import com.example.bookk.R
 import com.example.bookk.ui.activity.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -30,6 +34,23 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        // Display logged-in user's email
+        val user = FirebaseAuth.getInstance().currentUser
+        val emailTextView = view.findViewById<TextView>(R.id.profileEmail)
+        emailTextView.text = user?.email ?: "No Email"
+
+        // Inside onViewCreated or onCreateView
+        val editProfileCard: CardView = view.findViewById(R.id.editProfile)
+
+        editProfileCard.setOnClickListener {
+            // Open BlogFragment
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.frameLayout, BlogFragment())
+            transaction.addToBackStack(null)  // This ensures you can navigate back to ProfileFragment
+            transaction.commit()
+        }
+
 
         // Find the Logout CardView and set click listener
         val logoutCard = view.findViewById<View>(R.id.logout)

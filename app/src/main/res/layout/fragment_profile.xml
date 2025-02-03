@@ -1,105 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     android:background="@color/lightBlue"
     tools:context=".ui.fragment.ProfileFragment">
 
+    <!-- Profile Picture -->
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/profile_circle" />
+
+    <!-- Profile Email -->
+    <TextView
+        android:id="@+id/profileEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Loading..."
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black" />
+
+    <!-- Edit Profile / Blogs -->
     <androidx.cardview.widget.CardView
-        android:layout_margin="10dp"
-        app:cardCornerRadius="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:padding="15dp"
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-
-
-            <TextView
-                android:id="@+id/profileEmail"
-                android:text="xyz@gmail.com"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:textColor="@android:color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_margin="10dp"
         android:id="@+id/editProfile"
+        android:layout_width="275dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         app:cardCornerRadius="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:padding="15dp"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/baseline_mode_edit_outline_24"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:layout_marginStart="5dp"
-                android:text="Your Blogs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+        app:cardElevation="4dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/baseline_mode_edit_outline_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Your Blogs" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- Settings -->
     <androidx.cardview.widget.CardView
-        android:layout_margin="10dp"
+        android:id="@+id/settings"
+        android:layout_width="275dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         app:cardCornerRadius="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        app:cardElevation="4dp">
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="15dp"
-            android:layout_height="wrap_content">
+            android:gravity="center">
+
             <ImageView
-                android:src="@drawable/baseline_settings_24"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/baseline_settings_24" />
+
             <TextView
-                android:layout_marginStart="5dp"
-
-                android:text="Settings"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Settings" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
+    <!-- Logout -->
     <androidx.cardview.widget.CardView
-        android:layout_margin="10dp"
         android:id="@+id/logout"
+        android:layout_width="275dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
         app:cardCornerRadius="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        app:cardElevation="4dp">
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="15dp"
-            android:layout_height="wrap_content">
+            android:gravity="center">
+
             <ImageView
-                android:src="@drawable/baseline_logout_24"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/baseline_logout_24" />
+
             <TextView
-                android:layout_marginStart="5dp"
-
-                android:text="Logout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Logout" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

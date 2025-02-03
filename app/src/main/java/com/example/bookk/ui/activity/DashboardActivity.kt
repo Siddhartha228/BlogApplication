@@ -68,13 +68,24 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
-        val existingFragment = fragmentManager.findFragmentById(R.id.frameLayout)
+        val currentFragment = fragmentManager.findFragmentById(R.id.frameLayout)
 
         // Avoid reloading the same fragment
-        if (existingFragment == null || existingFragment::class.java != fragment::class.java) {
+        if (currentFragment == null || currentFragment::class.java != fragment::class.java) {
             fragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, fragment)
+                .addToBackStack(null) // This allows for fragment navigation with back press
                 .commit()
         }
     }
+
+    override fun onBackPressed() {
+        val fragmentManager = supportFragmentManager
+        if (fragmentManager.backStackEntryCount > 0) {
+            fragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
+    }
 }
+
