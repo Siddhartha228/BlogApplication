@@ -1,70 +1,84 @@
 package com.example.bookk.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bookk.R
+import com.example.bookk.adapter.BlogAdapter
+import com.example.bookk.model.BlogModel
+import com.google.firebase.database.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [BlogFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class BlogFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var blogAdapter: BlogAdapter
+    private val db: DatabaseReference = FirebaseDatabase.getInstance().reference
+    private val blogList = mutableListOf<BlogModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_blog, container, false)
 
-        // Find the close button and set a click listener
-        val closeButton: ImageView = view.findViewById(R.id.closeButton)
-        closeButton.setOnClickListener {
-            // Close the fragment and return to the previous screen
-            requireActivity().supportFragmentManager.popBackStack()
-        }
+        recyclerView = view.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        // Initialize adapter with the correct callbacks
+        blogAdapter = BlogAdapter(
+            requireContext(),
+            isInBlogFragment = true,
+            deleteBlog = ::deleteBlog,
+            updateBlog = ::updateBlog // This now passes the whole BlogModel
+        )
+        recyclerView.adapter = blogAdapter
+
+        fetchBlogs()
         return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BlogFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BlogFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun fetchBlogs() {
+        db.child("blogs").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                blogList.clear()
+                for (snapshot in dataSnapshot.children) {
+                    val blog = snapshot.getValue(BlogModel::class.java)
+                    blog?.let { blogList.add(it) }
                 }
+                blogAdapter.submitList(blogList)
             }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(requireContext(), "Error getting blogs: ${databaseError.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // Function to delete a blog
+    private fun deleteBlog(blogId: String) {
+        val blogRef = db.child("blogs").child(blogId)
+        blogRef.removeValue()
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Blog deleted successfully", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Error deleting blog: $e", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    // Function to update a blog (navigate to the update fragment or dialog)
+    private fun updateBlog(blog: BlogModel) {
+        // Navigate to Update Fragment with the full BlogModel data
+        val updateFragment = UpdateFragment.newInstance(blog)
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout, updateFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

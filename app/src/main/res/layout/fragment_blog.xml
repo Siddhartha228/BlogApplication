@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,18 +11,20 @@
         android:id="@+id/closeButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_gravity="end|top"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_margin="16dp"
         android:src="@drawable/baseline_close_24"
         android:contentDescription="Close Blog" />
 
-    <!-- Blog Content (Placeholder Text) -->
-    <TextView
+    <!-- RecyclerView to display the list of blogs -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Your Blog Content Here"
-        android:textSize="20sp"
-        android:textColor="@android:color/black" />
+        android:layout_below="@id/closeButton"
+        android:layout_marginTop="16dp"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/blog_item" />
 
-</FrameLayout>
+</RelativeLayout>

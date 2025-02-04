@@ -10,5 +10,8 @@
     <color name="colorPrimary">#6200EE</color>
 
     <color name="lightBlue">#ACC0DE</color>
+
+    <color name="mediumGray">#6c757d</color>
+    <color name="red">#DC3545</color>
 </resources>
 

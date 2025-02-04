@@ -45,7 +45,7 @@ class AddFragment : Fragment() {
                 Toast.makeText(requireContext(), "Please fill out both fields", Toast.LENGTH_SHORT).show()
             } else {
                 // Create a BlogModel instance
-                val blog = BlogModel(title, description)
+                val blog = BlogModel(title = title, preview = title, description = description)
                 addBlogToDatabase(blog)
 
                 // Optionally navigate to another fragment or pop back stack
@@ -58,7 +58,8 @@ class AddFragment : Fragment() {
 
     private fun addBlogToDatabase(blog: BlogModel) {
         val blogRef = db.child("blogs").push() // Auto-generate a unique key under "blogs"
-        blogRef.setValue(blog)
+        val blogWithId = blog.copy(id = blogRef.key ?: "") // Set the blog ID to the generated key
+        blogRef.setValue(blogWithId)
             .addOnSuccessListener {
                 Toast.makeText(requireContext(), "Blog added successfully", Toast.LENGTH_SHORT).show()
             }
