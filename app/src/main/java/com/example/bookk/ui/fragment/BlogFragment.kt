@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bookk.R
 import com.example.bookk.adapter.BlogAdapter
 import com.example.bookk.model.BlogModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class BlogFragment : Fragment() {
@@ -20,6 +20,7 @@ class BlogFragment : Fragment() {
     private lateinit var blogAdapter: BlogAdapter
     private val db: DatabaseReference = FirebaseDatabase.getInstance().reference
     private val blogList = mutableListOf<BlogModel>()
+    private val auth = FirebaseAuth.getInstance() // Firebase Auth instance
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,20 +45,30 @@ class BlogFragment : Fragment() {
     }
 
     private fun fetchBlogs() {
-        db.child("blogs").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                blogList.clear()
-                for (snapshot in dataSnapshot.children) {
-                    val blog = snapshot.getValue(BlogModel::class.java)
-                    blog?.let { blogList.add(it) }
+        val currentUserEmail = auth.currentUser?.email
+        if (currentUserEmail != null) {
+            db.child("blogs").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    blogList.clear() // Clear previous blog list
+                    for (snapshot in dataSnapshot.children) {
+                        val blog = snapshot.getValue(BlogModel::class.java)
+                        // Only add blogs where the authorEmail matches the logged-in user's email
+                        blog?.let {
+                            if (it.authorEmail == currentUserEmail) {
+                                blogList.add(it)
+                            }
+                        }
+                    }
+                    blogAdapter.submitList(blogList) // Update adapter with filtered list
                 }
-                blogAdapter.submitList(blogList)
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(requireContext(), "Error getting blogs: ${databaseError.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(requireContext(), "Error getting blogs: ${databaseError.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        } else {
+            Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // Function to delete a blog

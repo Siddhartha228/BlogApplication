@@ -7,13 +7,15 @@ data class BlogModel(
     val id: String = "", // Keep id as val since it is typically immutable
     var title: String = "",  // Change to var so it can be reassigned
     var preview: String = "",  // Change to var
-    var description: String = ""  // Change to var
+    var description: String = "",  // Change to var
+    var authorEmail: String = ""  // New field for the author's email
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""  // Initialize the new authorEmail field
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -21,6 +23,7 @@ data class BlogModel(
         parcel.writeString(title)
         parcel.writeString(preview)
         parcel.writeString(description)
+        parcel.writeString(authorEmail)  // Write the author's email to the parcel
     }
 
     override fun describeContents(): Int = 0
