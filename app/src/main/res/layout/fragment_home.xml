@@ -25,7 +25,7 @@
     <!-- SearchView for searching blogs (AndroidX version) -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
-        android:layout_width="0dp"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_marginTop="17dp"
@@ -33,6 +33,7 @@
         android:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/search_bgg"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <!-- RecyclerView to display the list of blogs -->

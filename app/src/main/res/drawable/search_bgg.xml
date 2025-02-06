@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Normal state: Gradient background -->
+    <item android:drawable="@drawable/gradient_background" android:state_enabled="true"/>
+
+    <!-- Pressed state: Darker shade -->
+    <item android:drawable="@color/search_button_pressed" android:state_pressed="true"/>
+
+    <!-- Focused state: Lighter shade -->
+    <item android:drawable="@color/search_button_focused" android:state_focused="true"/>
+</selector>

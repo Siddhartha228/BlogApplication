@@ -13,5 +13,15 @@
 
     <color name="mediumGray">#6c757d</color>
     <color name="red">#DC3545</color>
+
+    <color name="darkGray">#616161</color>
+
+    <color name="search_button_normal">#00BFAE</color>
+    <color name="search_button_pressed">#00796B</color>
+    <color name="search_button_focused">#1DE9B6</color>
+
+    <color name="lavender">#8692f7</color>
+    <color name="grey">#ff424242</color>
+
 </resources>
 

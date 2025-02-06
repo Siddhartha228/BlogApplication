@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    implementation ("androidx.cardview:cardview:1.0.0")
+
     // Firebase Authentication
     implementation("com.google.firebase:firebase-auth")
 
@@ -63,6 +65,8 @@ dependencies {
 
     // Firebase BOM (handles version management for all Firebase dependencies)
     implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
+
+
 }
 
 
